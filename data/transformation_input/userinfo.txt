@@ -1,0 +1,8 @@
+{"uid":1,"gender":"male","name":"ua","friends":[{"uid":1,"name":"cc"},{"uid":3,"name":"bb"}]}
+{"uid":2,"gender":"male","name":"ub","friends":[{"uid":2,"name":"aa"},{"uid":3,"name":"bb"}]}
+{"uid":3,"gender":"female","name":"uc","friends":[{"uid":2,"name":"aa"}]}
+{"uid":4,"gender":"female","name":"ud","friends":[{"uid":3,"name":"bb"}]}
+{"uid":5,"gender":"male","name":"ue","friends":[{"uid":1,"name":"cc"},{"uid":3,"name":"bb"}]}
+{"uid":6,"gender":"male","name":"uf","friends":[{"uid":2,"name":"aa"},{"uid":3,"name":"bb"},{"uid":1,"name":"cc"}]}
+{"uid":7,"gender":"male","name":"uf","friends":[{"uid":2,"name":"aa"},{"uid":3,"name":"bb"},{"uid":1,"name":"cc"},{"uid":4,"name":"dd"}]}
+{"uid":8,"gender":"male","name":"xx","friends":[{"uid":2,"name":"aa"},{"uid":3,"name":"bb"},{"uid":1,"name":"cc"},{"uid":4,"name":"dd"}]}

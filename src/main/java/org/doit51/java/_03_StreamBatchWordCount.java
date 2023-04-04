@@ -14,7 +14,7 @@ public class _03_StreamBatchWordCount {
 //        executionEnvironment.setRuntimeMode(RuntimeExecutionMode.BATCH);
 
         // 按流计算模式去执行
-         executionEnvironment.setRuntimeMode(RuntimeExecutionMode.STREAMING);
+        executionEnvironment.setRuntimeMode(RuntimeExecutionMode.STREAMING);
 
         // flink自己判断决定
 //         executionEnvironment.setRuntimeMode(RuntimeExecutionMode.AUTOMATIC);
