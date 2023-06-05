@@ -19,7 +19,7 @@ public class _01_StreamWordCount {
         //配置本地访问地址
         Configuration configuration = new Configuration();
         configuration.setInteger("rest.port", 8081);
-        configuration.setInteger("taskmanager.numberOfTaskSlots", 8);
+        configuration.setInteger("taskmanager.numberOfTaskSlots", 16);
 
         //创建本地环境，flink是流批一体的，可以通过设置运行mode来设置运行模式
 
@@ -39,9 +39,9 @@ public class _01_StreamWordCount {
         // [root@doit01 ~]# nc -lk 9999
         DataStreamSource<String> stringDataStreamSource = localEnvironment.socketTextStream("192.168.241.128", 9999);
 
-        stringDataStreamSource
-                .setParallelism(1)
-                .slotSharingGroup("g1");
+//        stringDataStreamSource
+//                .setParallelism(1)
+//                .slotSharingGroup("g1");
 
         SingleOutputStreamOperator<Tuple2<String, Integer>> tuple2SingleOutputStreamOperator = stringDataStreamSource.flatMap(new FlatMapFunction<String, Tuple2<String, Integer>>() {
                     @Override
@@ -51,14 +51,15 @@ public class _01_StreamWordCount {
                             collector.collect(Tuple2.of(word, 1));
                         }
                     }
-                })
-                .slotSharingGroup("g2").setParallelism(3);
+                });
+//                .slotSharingGroup("g2")
+//                .setParallelism(3);
         System.out.println("tuple2SingleOutputStreamOperator 算子并发度" + tuple2SingleOutputStreamOperator.getParallelism());
-        DataStream<Tuple2<String, Integer>> shuffle = tuple2SingleOutputStreamOperator
-                .shuffle();
-
-        System.out.println("shuffle 算子并发度" + shuffle.getParallelism());
-        KeyedStream<Tuple2<String, Integer>, String> tuple2StringKeyedStream = shuffle.keyBy(new KeySelector<Tuple2<String, Integer>, String>() {
+//        DataStream<Tuple2<String, Integer>> shuffle = tuple2SingleOutputStreamOperator
+//                .shuffle();
+//
+//        System.out.println("shuffle 算子并发度" + shuffle.getParallelism());
+        KeyedStream<Tuple2<String, Integer>, String> tuple2StringKeyedStream = tuple2SingleOutputStreamOperator.keyBy(new KeySelector<Tuple2<String, Integer>, String>() {
             @Override
             public String getKey(Tuple2<String, Integer> stringIntegerTuple2) throws Exception {
                 return stringIntegerTuple2.f0;
@@ -67,9 +68,11 @@ public class _01_StreamWordCount {
         System.out.println("tuple2StringKeyedStream 算子并发度" + tuple2StringKeyedStream.getParallelism());
         tuple2StringKeyedStream
 //                .keyBy(value -> value.f0)//简单写法
-                .sum("f1").setParallelism(1)
+                .sum("f1")
+                .setParallelism(1)
 //                .print("my job");
-                .print().setParallelism(1);
+                .print()
+                .setParallelism(1);
 
 //flink任务状态一直是created状态,
 // yarn slot 满了，减少并发度

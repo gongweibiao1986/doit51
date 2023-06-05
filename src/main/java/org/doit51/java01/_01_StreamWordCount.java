@@ -11,15 +11,18 @@ import org.apache.flink.util.Collector;
 
 public class _01_StreamWordCount {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        //配置本地访问地址
         Configuration configuration = new Configuration();
-        configuration.setInteger("rest.port", 8080);
-        //设置可用的slot数目为8个，不设置，默认为本机cpu数量
-        configuration.setInteger("taskmanager.numberOfTaskSlots", 8);
+        configuration.setInteger("rest.port", 8081);
+        configuration.setInteger("taskmanager.numberOfTaskSlots", 16);
+
 
         LocalStreamEnvironment localEnvironment = StreamExecutionEnvironment.createLocalEnvironment(configuration);
-        DataStreamSource<String> socketTextStream = localEnvironment.socketTextStream("192.168.241.128", 9999);
-        socketTextStream.flatMap(new FlatMapFunction<String, Tuple2<String, Integer>>() {
+        DataStreamSource<String> stringDataStreamSource = localEnvironment.socketTextStream("192.168.241.128", 9999);
+
+//        stringDataStreamSource.setParallelism(1);
+        stringDataStreamSource.flatMap(new FlatMapFunction<String, Tuple2<String, Integer>>() {
             @Override
             public void flatMap(String s, Collector<Tuple2<String, Integer>> collector) throws Exception {
                 String[] s1 = s.split(" ");
@@ -35,6 +38,6 @@ public class _01_StreamWordCount {
             }
         }).sum("f1").print();
 
-
+        localEnvironment.execute("jobtest");
     }
 }

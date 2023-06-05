@@ -107,6 +107,8 @@
         </dependency>
 
 
+
+
         <!-- 打印日志的jar包 -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -158,21 +160,23 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.49</version>
+            <version>8.0.27</version>
         </dependency>
 
         <!-- flink-cdc-mysql 连接器-->
-        <!-- https://mvnrepository.com/artifact/com.ververica/flink-connector-mysql-cdc -->
+<!--        <dependency>-->
+<!--            <groupId>com.ververica</groupId>-->
+<!--            <artifactId>flink-sql-connector-mysql-cdc</artifactId>-->
+<!--            <version>2.3-SNAPSHOT</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.ververica</groupId>
             <artifactId>flink-connector-mysql-cdc</artifactId>
+            <!-- the dependency is available only for stable releases. -->
             <version>2.3.0</version>
-<!--            <scope>provided</scope>-->
         </dependency>
 
-
         <!-- 应用redisSink功能所需要的依赖 -->
-        <!-- https://mvnrepository.com/artifact/org.apache.bahir/flink-connector-redis -->
         <dependency>
             <groupId>org.apache.bahir</groupId>
             <artifactId>flink-connector-redis_2.12</artifactId>
@@ -200,7 +204,18 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
             <version>1.18.22</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>2.0.7</version>
         </dependency>
 
     </dependencies>
@@ -239,6 +254,7 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
+
 
 
     <build>
@@ -313,8 +329,7 @@
                                 </filter>
                             </filters>
                             <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>my.programs.main.clazz</mainClass>
                                 </transformer>
                             </transformers>
