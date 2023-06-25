@@ -56,11 +56,28 @@ public class _05_SourceOperator_Demos {
 //        env.socketTextStream("localhost",9999);
 
         /**
+         * 基于文件的 Source，本质上就是使用指定的 FileInputFormat 组件读取数据，可以指定 TextInputFormat、
+         * CsvInputFormat、BinaryInputFormat 等格式；
+         * 底层都是 ContinuousFileMonitoringFunction，这个类继承了 RichSourceFunction，都是非并行的 Source；
+         */
+
+        /**
          * 从文件得到数据流
+         * readTextFile(String filePath) 可以从指定的目录或文件读取数据，默认使用的是 TextInputFormat 格式
+         * 读取数据，还有一个重载的方法 readTextFile(String filePath, String charsetName)可以传入读取文件指定
+         * 的字符集，默认是 UTF-8 编码。该方法是一个有限的数据源，数据读完后，程序就会退出，不能一
+         * 直运行。该方法底层调用的是 readFile 方法，FileProcessingMode 为 PROCESS_ONCE
          */
         DataStreamSource<String> fileSource = env.readTextFile("data/wc/input", "utf-8");
 //        fileSource.map(value -> value.toUpperCase()).print();
 
+        //readFile(FileInputFormat inputFormat, String filePath) 方法可以指定读取文件的 FileInputFormat 格式，
+        //参数 FileProcessingMode，可取值：
+        // PROCESS_ONCE，只读取文件中的数据一次，读取完成后，程序退出
+        // PROCESS_CONTINUOUSLY，会一直监听指定的文件，文件的内容发生变化后，会将以前的内容和新的内容全
+        //部都读取出来，进而造成数据重复读取。
+
+        //PROCESS_CONTINUOUSLY 模式是一直监听指定的文件或目录，2 秒钟检测一次文件是否发生变化
         DataStreamSource<String> fileSource2 = env.readFile(new TextInputFormat(null), "data/wc/input", FileProcessingMode.PROCESS_CONTINUOUSLY, 1000);
 //        fileSource2.map(String::toUpperCase).print();
 
