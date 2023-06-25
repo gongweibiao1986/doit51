@@ -33,6 +33,7 @@ public class _01_StreamWordCount {
 
         // 通过source算子，把socket数据源加载为一个dataStream（数据流）
         // [root@doit01 ~]# nc -lk 9999
+        StreamExecutionEnvironment environment = StreamExecutionEnvironment.createLocalEnvironment();
         DataStreamSource<String> stringDataStreamSource = localEnvironment.socketTextStream("192.168.241.128", 9999);
 
 //        stringDataStreamSource
