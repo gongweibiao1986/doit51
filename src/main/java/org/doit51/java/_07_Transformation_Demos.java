@@ -1,7 +1,6 @@
 package org.doit51.java;
 
 import com.alibaba.fastjson.JSON;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.flink.api.common.functions.FlatMapFunction;
@@ -22,7 +21,7 @@ import java.util.List;
 /**
  * 各类transformation算子的api演示
  */
-public class _07_Transformation_Demos {
+public class  _07_Transformation_Demos {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);

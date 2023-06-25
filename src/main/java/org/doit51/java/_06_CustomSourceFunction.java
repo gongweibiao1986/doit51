@@ -23,7 +23,7 @@ import java.util.HashMap;
  * -- 带 Rich的，都拥有 open() ,close() ,getRuntimeContext() 方法
  * -- 带 Parallel的，都可多实例并行执行
  **/
-public class _06_CustomSourceFunction {
+public class  _06_CustomSourceFunction {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
@@ -147,3 +147,4 @@ class MyRichParallelSourceFunction extends RichParallelSourceFunction<EventLog> 
 
     }
 }
+
